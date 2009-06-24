@@ -1,0 +1,35 @@
+* 概要
+
+Android 向けにネイティブプログラムをコンパイルしようとすると、
+コンパイル時やリンク時にフラグを山ほどつける必要がある。
+
+さらに、共有ライブラリのリンク時とプログラムのリンク時の
+オプションが異っていたりするので、autotools 系 (autoconf,
+automake, libtoolなど）を使っているプログラムのポーティングが
+困難である。
+
+そこで、これらを解決するために gcc や ld に対するラッパを書いた。
+それがこれである。
+
+
+* インストール
+
+ $ sudo make install
+
+droid-gcc, droid-g++, droid-ld の３つのコマンドがインストール
+される。
+
+
+* 使い方
+
+以下の環境変数を設定する
+
+ - DROID_ROOT : Android ソースツリーディレクトリ
+ - DROID_TARGET : コンパイルターゲット (generic や dream など)
+ - DROID_WRAPPER_DEBUG : デバッグ時に適当な値に設定
+
+あとは droid-gcc, droid-ld などを使うだけ。
+
+
+
+
