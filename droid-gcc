@@ -125,7 +125,7 @@ if ($0 =~ /-ld$/)
 end
 
 ### parse command line options
-mode = "link"
+mode = nil
 
 argv = ARGV.dup
 while (argv.length > 0) 
@@ -135,16 +135,25 @@ while (argv.length > 0)
     when "-c"
         mode = "compile"
 
+    when "-shared"
+        mode = "shlib"
+
     when "-o"
-        target = argv.shift
-        if (target =~ /\.o$/)
-            mode = "compile"
-        elsif (target =~/\.so$/)
-            mode = "shlib"
-        else
-            mode = "link"
+        if (mode == nil)
+            target = argv.shift
+            if (target =~ /\.o$/)
+                mode = "compile"
+            elsif (target =~/\.so[\.\d]*$/)
+                mode = "shlib"
+            else
+                mode = "link"
+            end
         end
     end
+end
+
+if (mode == nil)
+    mode = "link"
 end
 
 ### generate command line
