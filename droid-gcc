@@ -1,0 +1,190 @@
+#!/usr/bin/ruby
+
+=begin
+
+  droid-wrapper : Android toolchain wrapper script
+  version 1.0
+
+  Copyright 2009, Takuya Murakami, et al.
+
+  Author:
+    Takuya Murakami <tmurakam at tmurakam.org>
+    Yoshiaki Okuyama <okuyam2y at gmail.com>
+
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are
+  met:
+
+  1. Redistributions of source code must retain the above copyright notice,
+  this list of conditions and the following disclaimer.
+
+  2. Redistributions in binary form must reproduce the above copyright
+  notice, this list of conditions and the following disclaimer in the
+  documentation and/or other materials provided with the distribution.
+
+  3. Neither the name of the project nor the names of its contributors
+  may be used to endorse or promote products derived from this software
+  without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+=end
+
+debug = false
+if (ENV["DROID_WRAPPER_DEBUG"])
+    debug = true
+end
+
+droid_root = ENV["DROID_ROOT"]
+if (!droid_root)
+    STDERR.puts "You must specify DROID_ROOT"
+    exit 1
+end
+droid_target = ENV["DROID_TARGET"]
+if (!droid_target)
+    STDERR.puts "You must specify DROID_TARGET"
+    exit 1
+end
+
+toolchain = "#{droid_root}/prebuilt/linux-x86/toolchain/arm-eabi-4.2.1"
+alib = "#{droid_root}/out/target/product/#{droid_target}/obj/lib"
+
+cflags =
+    [
+     "-DANDROID",
+     "-I#{droid_root}/system/core/include",
+     "-I#{droid_root}/system/core/include",
+     "-I#{droid_root}/hardware/libhardware/include",
+     "-I#{droid_root}/hardware/ril/include",
+     "-I#{droid_root}/dalvik/libnativehelper/include",
+     "-I#{droid_root}/frameworks/base/include",
+     "-I#{droid_root}/external/skia/include",
+     "-I#{droid_root}/out/target/product/#{droid_target}/obj/include",
+     "-I#{droid_root}/bionic/libc/arch-arm/include",
+     "-I#{droid_root}/bionic/libc/include",
+     "-I#{droid_root}/bionic/libstdc++/include",
+     "-I#{droid_root}/bionic/libc/kernel/common",
+     "-I#{droid_root}/bionic/libc/kernel/arch-arm",
+     "-I#{droid_root}/bionic/libm/include",
+     "-I#{droid_root}/bionic/libm/include/arch/arm",
+     "-I#{droid_root}/bionic/libthread_db/include",
+     "-I#{droid_root}/bionic/libm/arm",
+     "-I#{droid_root}/bionic/libm",
+     "-I#{droid_root}/out/target/product/#{droid_target}/obj/SHARED_LIBRARIES/libm_intermediates"
+    ]
+
+link_args =
+    [
+     "-Bdynamic",
+     "-Wl,-T,#{droid_root}/build/core/armelf.x",
+     "-Wl,-dynamic-linker,/system/bin/linker",
+     "-Wl,--gc-sections",
+     "-Wl,-z,nocopyreloc",
+     "-Wl,--no-undefined",
+     "-Wl,-rpath-link=#{alib}",
+     "-L#{alib}",
+     "-nostdlib",
+     "#{alib}/crtbegin_dynamic.o",
+     "#{toolchain}/lib/gcc/arm-eabi/4.2.1/libgcc.a",
+     "#{alib}/crtend_android.o",
+     "-lc",
+     "-lm"
+    ]
+
+shlib_args =
+    [
+     "-nostdlib",
+     "-Wl,-T,#{droid_root}/build/core/armelf.xsc",
+     "-Wl,--gc-sections",
+     "-Wl,-shared,-Bsymbolic",
+     "-L#{alib}",
+     "-Wl,--no-whole-archive",
+     "-lc",
+     "-lm",
+     "-Wl,--no-undefined",
+     "#{toolchain}/lib/gcc/arm-eabi/4.2.1/interwork/libgcc.a",
+     "-Wl,--whole-archive"
+    ]
+
+### check myself
+prog = $0.sub(/^.*-(\w+)$/) { "#{toolchain}/bin/arm-eabi-#{$1}" }
+isLD = false
+if ($0 =~ /-ld$/)
+    isLD = true
+end
+
+### parse command line options
+mode = "link"
+
+argv = ARGV.dup
+while (argv.length > 0) 
+    arg = argv.shift
+
+    case arg
+    when "-c"
+        mode = "compile"
+
+    when "-o"
+        target = argv.shift
+        if (target =~ /\.o$/)
+            mode = "compile"
+        elsif (target =~/\.so$/)
+            mode = "shlib"
+        else
+            mode = "link"
+        end
+    end
+end
+
+### generate command line
+argv = ARGV
+
+case mode
+when "compile"
+    argv = cflags + ARGV
+    
+when "link"
+    if (!isLD) 
+        argv = cflags + link_args + ARGV
+    else
+        argv = link_args + ARGV
+    end
+
+when "shlib"
+    if (!isLD)
+        argv = cflags + shlib_args + ARGV
+    else
+        argv = shlib_args + ARGV
+    end
+end
+
+# remove -Wl options for linker
+if (isLD) 
+    argv2 = Array.new
+
+    argv.each do |arg|
+        if (arg =~ /^-Wl,(.*)$/)
+            argv2 += $1.split(/,/)
+        else
+            argv2.push(arg)
+        end
+    end
+    argv = argv2
+end
+
+# 注: このコマンドラインでは、'"' などの記号が quote されないので、
+# exec 直接呼出し時の動作が異なる
+puts "droid-debug(#{mode}): #{prog} #{argv.join(" ")}" if (debug)
+
+exec [prog, prog], *argv
