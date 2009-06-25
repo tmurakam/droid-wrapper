@@ -125,7 +125,7 @@ if ($0 =~ /-ld$/)
 end
 
 ### parse command line options
-mode = nil
+mode = "link"
 
 argv = ARGV.dup
 while (argv.length > 0) 
@@ -133,27 +133,13 @@ while (argv.length > 0)
 
     case arg
     when "-c"
+    when "-S"
+    when "-E"
         mode = "compile"
 
     when "-shared"
         mode = "shlib"
-
-    when "-o"
-        if (mode == nil)
-            target = argv.shift
-            if (target =~ /\.o$/)
-                mode = "compile"
-            elsif (target =~/\.so[\.\d]*$/)
-                mode = "shlib"
-            else
-                mode = "link"
-            end
-        end
     end
-end
-
-if (mode == nil)
-    mode = "link"
 end
 
 ### generate command line
@@ -192,8 +178,8 @@ if (isLD)
     argv = argv2
 end
 
-# 注: このコマンドラインでは、'"' などの記号が quote されないので、
-# exec 直接呼出し時の動作が異なる
+# Note: Behavior of this command line might differ from
+# following exec call, because each arguments are not quoted.
 puts "droid-debug(#{mode}): #{prog} #{argv.join(" ")}" if (debug)
 
 exec [prog, prog], *argv
