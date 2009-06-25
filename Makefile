@@ -1,4 +1,6 @@
-DESTDIR=/usr/local
+VERSION = 1.0.0
+
+DESTDIR = /usr/local
 
 all:
 
@@ -11,5 +13,11 @@ install:
 	/bin/ln -s droid-gcc ${DESTDIR}/bin/droid-g++
 
 package:
-	tar cvzf droid-wrapper.tar.gz droid-gcc Makefile
+	@-/bin/rm -rf droid-wrapper-${VERSION}
+	mkdir droid-wrapper-${VERSION}
+	cp droid-gcc Makefile \
+	  README README.ja INSTALL AUTHORS COPYING ChangeLog \
+	  droid-wrapper-${VERSION}/
+	tar cvzf droid-wrapper-${VERSION}.tar.gz droid-wrapper-${VERSION}
+
 
