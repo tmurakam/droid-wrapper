@@ -57,7 +57,12 @@ if (!droid_target)
     exit 1
 end
 
-toolchain = "#{droid_root}/prebuilt/linux-x86/toolchain/arm-eabi-4.2.1"
+droid_host = ENV["DROID_HOST"]
+if (!droid_host)
+    droid_host = "linux-x86"
+end
+
+toolchain = "#{droid_root}/prebuilt/#{droid_host}/toolchain/arm-eabi-4.2.1"
 alib = "#{droid_root}/out/target/product/#{droid_target}/obj/lib"
 
 cflags =
