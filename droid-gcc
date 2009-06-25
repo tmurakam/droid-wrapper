@@ -48,16 +48,14 @@ if (!droid_host)
     droid_host = "linux-x86"
 end
 
-arch = "arm-eabi"
 toolver = "4.2.1"
 
-toolchain = "#{droid_root}/prebuilt/#{droid_host}/toolchain/#{arch}-#{toolver}"
+toolchain = "#{droid_root}/prebuilt/#{droid_host}/toolchain/arm-eabi-#{toolver}"
 alib = "#{droid_root}/out/target/product/#{droid_target}/obj/lib"
 
 cflags =
     [
      "-DANDROID",
-     "-I#{droid_root}/system/core/include",
      "-I#{droid_root}/system/core/include",
      "-I#{droid_root}/hardware/libhardware/include",
      "-I#{droid_root}/hardware/ril/include",
@@ -90,7 +88,7 @@ link_args =
      "-L#{alib}",
      "-nostdlib",
      "#{alib}/crtbegin_dynamic.o",
-     "#{toolchain}/lib/gcc/#{arch}/#{toolver}/libgcc.a",
+     "#{toolchain}/lib/gcc/arm-eabi/#{toolver}/libgcc.a",
      "#{alib}/crtend_android.o",
      "-lc",
      "-lm"
@@ -107,12 +105,12 @@ shlib_args =
      "-lc",
      "-lm",
      "-Wl,--no-undefined",
-     "#{toolchain}/lib/gcc/#{arch}/#{toolver}/interwork/libgcc.a",
+     "#{toolchain}/lib/gcc/arm-eabi/#{toolver}/interwork/libgcc.a",
      "-Wl,--whole-archive"
     ]
 
 ### check myself
-prog = $0.sub(/^.*-(\w+)$/) { "#{toolchain}/bin/#{arch}-#{$1}" }
+prog = $0.sub(/^.*-(\w+)$/) { "#{toolchain}/bin/arm-eabi-#{$1}" }
 isLD = false
 if ($0 =~ /-ld$/)
     isLD = true
