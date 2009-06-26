@@ -110,7 +110,14 @@ shlib_args =
     ]
 
 ### check myself
-prog = $0.sub(/^.*-(\w+)$/) { "#{toolchain}/bin/arm-eabi-#{$1}" }
+prog = nil
+if ($0 =~ /^.*-([^-]+)$/) 
+    prog = "#{toolchain}/bin/arm-eabi-#{$1}"
+else
+    STDERR.puts "internal error: invalid command name."
+    exit 1
+end
+
 isLD = false
 if ($0 =~ /-ld$/)
     isLD = true
@@ -119,10 +126,7 @@ end
 ### parse command line options
 mode = "link"
 
-argv = ARGV.dup
-while (argv.length > 0) 
-    arg = argv.shift
-
+ARGV.each do |arg|
     case arg
     when "-c"
     when "-S"
