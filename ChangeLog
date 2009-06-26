@@ -1,2 +1,5 @@
+* 2009/6/26 ver 1.0.1 : Takuya Murakami <tmurakam at tmurakam.org>
+	- bug fix: g++ did not work
+
 * 2009/6/25 ver 1.0.0 : Takuya Murakami <tmurakam at tmurakam.org>
 	- Initial revision
