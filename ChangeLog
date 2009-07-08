@@ -1,3 +1,8 @@
+* 2009/7/8 ver 1.0.2 : Takuya Murakami <tmurakam at tmurakam.org>
+	- bug fix: -c, -S option handling.
+	- add -Wl,--warn-unresolved-symbols option for shared library,
+	  to compile shared library/modules with unresolved symbols.
+	
 * 2009/6/26 ver 1.0.1 : Takuya Murakami <tmurakam at tmurakam.org>
 	- bug fix: g++ did not work
 

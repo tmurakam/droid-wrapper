@@ -106,7 +106,8 @@ shlib_args =
      "-lm",
      "-Wl,--no-undefined",
      "#{toolchain}/lib/gcc/arm-eabi/#{toolver}/interwork/libgcc.a",
-     "-Wl,--whole-archive"
+     "-Wl,--whole-archive",
+     "-Wl,--warn-unresolved-symbols"
     ]
 
 ### check myself
