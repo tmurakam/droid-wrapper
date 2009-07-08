@@ -6,7 +6,7 @@ all:
 
 install:
 	install -d ${DESTDIR}/bin
-	/bin/cp droid-gcc ${DESTDIR}/bin/droid-gcc
+	install droid-gcc ${DESTDIR}/bin/droid-gcc
 	-/bin/rm ${DESTDIR}/bin/droid-ld
 	/bin/ln -s droid-gcc ${DESTDIR}/bin/droid-ld
 	-/bin/rm ${DESTDIR}/bin/droid-g++
