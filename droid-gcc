@@ -128,9 +128,7 @@ mode = "link"
 
 ARGV.each do |arg|
     case arg
-    when "-c"
-    when "-S"
-    when "-E"
+    when "-c", "-S", "-E"
         mode = "compile"
 
     when "-shared"
