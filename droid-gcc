@@ -56,7 +56,17 @@ alib = "#{droid_root}/out/target/product/#{droid_target}/obj/lib"
 cflags =
     [
      "-DANDROID",
+     "-msoft-float",
      "-fpic",
+     "-ffunction-sections",
+     "-funwind-tables",
+     "-fstack-protector",
+     "-fno-short-enums",
+     "-fno-exceptions",
+     "-fmessage-length=0",
+     "-Wno-multichar",
+     #"-mthumb-interwork",
+
      "-I#{droid_root}/system/core/include",
      "-I#{droid_root}/hardware/libhardware/include",
      "-I#{droid_root}/hardware/ril/include",
