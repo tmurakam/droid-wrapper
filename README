@@ -22,7 +22,7 @@ droid-gcc, droid-g++, and droid-ld commands will be installed.
 Specify following environment variables:
 
  - DROID_ROOT : Android source tree directory
- - DROID_TARGET : Compile target (generic, dream etc)
+ - DROID_TARGET : Compile target (generic, dream-open etc)
  - DROID_HOST : Specify build host
                 Use "windows" for Windows, "darwin-x86" for Mac OS X.
                 Nothing needed for Linux.
