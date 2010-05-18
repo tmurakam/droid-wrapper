@@ -53,6 +53,9 @@ toolver = "4.2.1"
 toolchain = "#{droid_root}/prebuilt/#{droid_host}/toolchain/arm-eabi-#{toolver}"
 alib = "#{droid_root}/out/target/product/#{droid_target}/obj/lib"
 
+# many compiler/linker flags were extracted from
+# build/core/combo/linux-arm.mk file.
+
 cflags =
     [
      "-DANDROID",
