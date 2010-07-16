@@ -72,9 +72,11 @@ cflags =
 
      "-I#{droid_root}/system/core/include",
      "-I#{droid_root}/hardware/libhardware/include",
+     "-I#{droid_root}/hardware/libhardware_legacy/include",
      "-I#{droid_root}/hardware/ril/include",
      "-I#{droid_root}/dalvik/libnativehelper/include",
      "-I#{droid_root}/frameworks/base/include",
+     "-I#{droid_root}/frameworks/base/opengl/include",
      "-I#{droid_root}/external/skia/include",
      "-I#{droid_root}/out/target/product/#{droid_target}/obj/include",
      "-I#{droid_root}/bionic/libc/arch-arm/include",

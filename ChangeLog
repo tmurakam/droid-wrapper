@@ -1,15 +1,18 @@
-* 2009/7/13 ver 1.0.3 : Takuya Murakami <tmurakam at tmurakam.org>
-	- add -fpic options for compiler flags.
+2010-7-16 Takuya Murakami
+	* add -I flags
+	
+2009-7-13 ver 1.0.3 : Takuya Murakami <tmurakam at tmurakam.org>
+	* add -fpic options for compiler flags.
 	  This seems to be needed for dynamic linked program.
-	- add some other options.
-
-* 2009/7/8 ver 1.0.2 : Takuya Murakami <tmurakam at tmurakam.org>
-	- bug fix: -c, -S option handling.
-	- add -Wl,--warn-unresolved-symbols option for shared library,
+	* add some other options.
+	
+2009-07-08 ver 1.0.2 : Takuya Murakami <tmurakam at tmurakam.org>
+	* bug fix: -c, -S option handling.
+	* add -Wl,--warn-unresolved-symbols option for shared library,
 	  to compile shared library/modules with unresolved symbols.
 	
-* 2009/6/26 ver 1.0.1 : Takuya Murakami <tmurakam at tmurakam.org>
-	- bug fix: g++ did not work
+2009-06-26 ver 1.0.1 : Takuya Murakami <tmurakam at tmurakam.org>
+	* bug fix: g++ did not work
 
-* 2009/6/25 ver 1.0.0 : Takuya Murakami <tmurakam at tmurakam.org>
-	- Initial revision
+2009-06-25 ver 1.0.0 : Takuya Murakami <tmurakam at tmurakam.org>
+	* Initial revision
