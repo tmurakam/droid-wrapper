@@ -11,6 +11,8 @@ install:
 	/bin/ln -s droid-gcc ${DESTDIR}/bin/droid-ld
 	-/bin/rm ${DESTDIR}/bin/droid-g++
 	/bin/ln -s droid-gcc ${DESTDIR}/bin/droid-g++
+	-/bin/rm ${DESTDIR}/bin/droid-cpp
+	/bin/ln -s droid-gcc ${DESTDIR}/bin/droid-cpp
 
 package:
 	@-/bin/rm -rf droid-wrapper-${VERSION}
