@@ -128,7 +128,9 @@ shlib_args =
 
 ### check myself
 prog = nil
+oprog = nil
 if ($0 =~ /^.*-([^-]+)$/) 
+    oprog = $1
     prog = "#{toolchain}/bin/arm-eabi-#{$1}"
 else
     STDERR.puts "internal error: invalid command name."
@@ -136,20 +138,24 @@ else
 end
 
 isLD = false
-if ($0 =~ /-ld$/)
+if (oprog == "ld")
     isLD = true
 end
 
 ### parse command line options
-mode = "link"
+if (["ar", "nm", "objcopy", "objdump", "ranlib", "strip"].include?(oprog))
+    mode = "passthrough"
+else
+    mode = "link"
 
-ARGV.each do |arg|
-    case arg
-    when "-c", "-S", "-E", "-r"
-        mode = "compile"
+    ARGV.each do |arg|
+        case arg
+        when "-c", "-S", "-E", "-r"
+            mode = "compile"
 
-    when "-shared"
-        mode = "shlib"
+        when "-shared"
+            mode = "shlib"
+        end
     end
 end
 

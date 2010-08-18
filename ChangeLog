@@ -1,5 +1,6 @@
 2010-8-18 ver 1.0.4 : Takuya Murakami <tmurakam at tmurakam.org>
 	* support "-r" option for gcc
+	* support ar, as, c++, nm, objcopy, objdump, ranlib, strip
 
 2010-7-16 Takuya Murakami
 	* add -I flags

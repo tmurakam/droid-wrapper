@@ -7,12 +7,12 @@ all:
 install:
 	install -d ${DESTDIR}/bin
 	install droid-gcc ${DESTDIR}/bin/droid-gcc
-	-/bin/rm ${DESTDIR}/bin/droid-ld
-	/bin/ln -s droid-gcc ${DESTDIR}/bin/droid-ld
-	-/bin/rm ${DESTDIR}/bin/droid-g++
-	/bin/ln -s droid-gcc ${DESTDIR}/bin/droid-g++
-	-/bin/rm ${DESTDIR}/bin/droid-cpp
-	/bin/ln -s droid-gcc ${DESTDIR}/bin/droid-cpp
+	for cmd in ar as c++ g++ ld nm objcopy objdump ranlib strip; do \
+		if [ -f "${DESTDIR}/bin/droid-$$cmd" ]; then \
+			/bin/rm ${DESTDIR}/bin/droid-$$cmd; \
+		fi; \
+		/bin/ln -s droid-gcc "${DESTDIR}/bin/droid-$$cmd"; \
+	done
 
 package:
 	@-/bin/rm -rf droid-wrapper-${VERSION}
