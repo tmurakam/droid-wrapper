@@ -1,6 +1,10 @@
+2010-8-18 Takuya Murakami
+	* support "-r" option for gcc
+
 2010-7-16 Takuya Murakami
 	* add -I flags
-	
+	* support cpp
+
 2009-7-13 ver 1.0.3 : Takuya Murakami <tmurakam at tmurakam.org>
 	* add -fpic options for compiler flags.
 	  This seems to be needed for dynamic linked program.
