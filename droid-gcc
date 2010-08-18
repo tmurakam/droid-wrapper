@@ -3,9 +3,9 @@
 =begin
 
   droid-wrapper : Android toolchain wrapper script
-  version 1.0.3
+  version 1.0.4
 
-  Copyright 2009, Takuya Murakami, Yoshiaki Okuyama.
+  Copyright 2009-2010, Takuya Murakami, Yoshiaki Okuyama.
 
   Author:
     Takuya Murakami <tmurakam at tmurakam.org>
