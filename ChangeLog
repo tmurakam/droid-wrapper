@@ -1,4 +1,7 @@
-2010-8-18 ver 1.0.4 : Takuya Murakami <tmurakam at tmurakam.org>
+2010-8-19 ver 1.0.4 : Takuya Murakami <tmurakam at tmurakam.org>
+	* add "-rpath /system/lib" option for linker.
+
+2010-8-18 Takuya Murakami <tmurakam at tmurakam.org>
 	* support "-r" option for gcc
 	* support ar, as, c++, nm, objcopy, objdump, ranlib, strip
 
