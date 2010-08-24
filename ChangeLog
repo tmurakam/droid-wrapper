@@ -1,5 +1,5 @@
 2010-8-24 ver 1.0.5 : Takuya Murakami <tmurakam at tmurakam.org>
-	* modify compiler/linker path argument order
+	* misc fix
 
 2010-8-19 ver 1.0.4 : Takuya Murakami <tmurakam at tmurakam.org>
 	* add "-rpath /system/lib" option for linker.

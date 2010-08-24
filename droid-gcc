@@ -165,20 +165,20 @@ argv = ARGV
 
 case mode
 when "compile"
-    argv += cflags
+    argv = cflags + ARGV
     
 when "link"
     if (!isLD) 
-        argv += cflags + link_args
+        argv = cflags + link_args + ARGV
     else
-        argv += link_args
+        argv = link_args + ARGV
     end
 
 when "shlib"
     if (!isLD)
-        argv += cflags + shlib_args
+        argv = cflags + shlib_args + ARGV
     else
-        argv += shlib_args
+        argv = shlib_args + ARGV
     end
 end
 
