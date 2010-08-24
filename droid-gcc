@@ -3,7 +3,7 @@
 =begin
 
   droid-wrapper : Android toolchain wrapper script
-  version 1.0.4
+  version 1.0.5
 
   Copyright 2009-2010, Takuya Murakami, Yoshiaki Okuyama.
 
@@ -101,6 +101,7 @@ link_args =
      "-Wl,-z,nocopyreloc",
      "-Wl,--no-undefined",
      "-Wl,-rpath-link=#{alib}",
+     "-Wl,-rpath,/system/lib",
      "-L#{alib}",
      "-nostdlib",
      "#{alib}/crtbegin_dynamic.o",
@@ -164,20 +165,20 @@ argv = ARGV
 
 case mode
 when "compile"
-    argv = cflags + ARGV
+    argv += cflags
     
 when "link"
     if (!isLD) 
-        argv = cflags + link_args + ARGV
+        argv += cflags + link_args
     else
-        argv = link_args + ARGV
+        argv += link_args
     end
 
 when "shlib"
     if (!isLD)
-        argv = cflags + shlib_args + ARGV
+        argv += cflags + shlib_args
     else
-        argv = shlib_args + ARGV
+        argv += shlib_args
     end
 end
 
