@@ -30,7 +30,7 @@ droid-gcc, droid-g++, droid-ld の３つのコマンドがインストール
 
  *  DROID_ROOT : Android ソースツリーディレクトリ
  *  DROID_TARGET : コンパイルターゲット (generic や dream-open など)
- *  DROID_HOST : ビルドホストを指定
+ *  DROID_HOST : ビルドホストを指定。
     Windows では "windows", Mac OS X では "darwin-x86"
     に指定 (Linux の場合は指定不要)
  *  DROID_WRAPPER_DEBUG : デバッグ時に適当な値に設定
